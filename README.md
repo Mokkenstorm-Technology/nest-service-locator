@@ -74,18 +74,12 @@ Tagged services and their metadata can be retrieved using the service locator:
 import { ServiceLocator, TaggedService } from '@riotbyte/nest-service-locator'
 
 class GroupGreeter {
-  private greeters = Map<string, GreeterInterface>()
-
-  constructor(locator: ServiceLocator) {
-    const tagged: TaggedService<GreeterInterface, { name: string }>[] =
-      locator.tagged(GreeterTag)
-    tagger.forEach((tagged) => {
-      this.greeters.set(tagged.metadata.name, tagged.service)
-    })
-  }
+  constructor(private readonly locator: ServiceLocator) {}
 
   greet(greeterName: string): void {
-    this.greeters.get(greeterName).greet()
+    this.locator.tagged(GreeterTag)
+      .find(tagged => tagged.metadata.name === greeterName)
+      ?.greet()
   }
 }
 ```
