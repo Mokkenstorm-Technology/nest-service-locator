@@ -1,0 +1,41 @@
+name: Publish Package to npmjs
+on:
+  workflow_dispatch:
+    inputs:
+      version:
+        description: 'The desired version that should be created (format: <major>.<minor>.<fix>).'
+        type: string
+        required: true
+permissions:
+  contents: write
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: 'Validate version format'
+        run: echo "${RELEASE_VERSION}" | grep -Eq ^[0-9]+\.[0-9]+\.[0-9]+$
+        env:
+          RELEASE_VERSION: ${{ github.event.inputs.version }}
+      - uses: actions/checkout@v4
+      - run: |
+          git config --global user.name 'Riot Byte'
+          git config --global user.email 'riotbyte@users.noreply.github.com'
+      - uses: actions/setup-node@v3
+        with:
+          node-version: '20.x'
+          registry-url: 'https://registry.npmjs.org'
+      - run: npm install
+      - run: npm run lint
+      - run: npm run prettier:check
+      - run: npm build
+      - run: npm version $RELEASE_VERSION
+        env:
+          RELEASE_VERSION: ${{ github.event.inputs.version }}
+      - name: Push new version
+        run: |
+          git push --tags
+        env:
+          RELEASE_VERSION: ${{ github.event.inputs.version }}
+      - run: npm publish --access public
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}

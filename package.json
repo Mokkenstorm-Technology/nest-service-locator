@@ -1,0 +1,42 @@
+{
+  "name": "@riotbyte/nest-service-locator",
+  "version": "0.0.0",
+  "description": "NestJS tag based service locator",
+  "contributors": [
+    {
+      "name": "Maarten Nusteling",
+      "email": "maarten@nusteling.solutions",
+      "url": "https://github.com/nusje2000"
+    }
+  ],
+  "prettier": "@riotbyte/prettier-config",
+  "private": true,
+  "license": "UNLICENSED",
+  "type": "commonjs",
+  "main": "dist/src/index.js",
+  "types": "dist/src/index.d.ts",
+  "engines": {
+    "node": "18.x"
+  },
+  "scripts": {
+    "build": "tsc",
+    "lint": "eslint .",
+    "lint:fix": "eslint . --fix",
+    "prettier": "prettier --write .",
+    "prettier:check": "prettier --check ."
+  },
+  "dependencies": {
+    "@nestjs/common": "^9.0.0",
+    "@nestjs/core": "^9.0.0"
+  },
+  "devDependencies": {
+    "@riotbyte/eslint-config": "^0.1.2",
+    "@riotbyte/prettier-config": "^0.1.0",
+    "@types/node": "^20.10.0",
+    "typescript": "^5.1.6"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Mokkenstorm-Technology/nest-service-locator"
+  }
+}
