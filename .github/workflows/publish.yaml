@@ -27,7 +27,7 @@ jobs:
       - run: npm install
       - run: npm run lint
       - run: npm run prettier:check
-      - run: npm build
+      - run: npm run build
       - run: npm version $RELEASE_VERSION
         env:
           RELEASE_VERSION: ${{ github.event.inputs.version }}
